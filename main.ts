@@ -81,7 +81,7 @@ async function bookLecture(id: string, fiscalCode: string): Promise<boolean> {
  *
  * @returns
  */
-async function getAllLecturesCodes(): Promise<string[]> {
+async function getLecturesList(): Promise<Lecture[]> {
     // ! P.S. The tests below were done on &include=prenotalezione_gestisci, don't know if it's the same
 
     const url =
@@ -89,15 +89,22 @@ async function getAllLecturesCodes(): Promise<string[]> {
 
     // ! Without the manual cookie header the php wont't return the lecture list
     // ? It only needs the cookie "_opensaml_req_ss" and "PHPSESSID"
-    const response = await agent.get(url).withCredentials().set({
-        cookie: '_opensaml_req_ss%3Amem%3A94c72510a67695953bf82d9eb7a826d317aec1f77588c9c3cb32ab4b4cb42f2f=_56e09a71cada64ad86da6530a9c08b96; PHPSESSID=a41gg9dncek6t6m31rinescgr1;',
-    });
+    const response = await agent.get(url).withCredentials();
+    // .set({
+    //     cookie: '_opensaml_req_ss%3Amem%3A94c72510a67695953bf82d9eb7a826d317aec1f77588c9c3cb32ab4b4cb42f2f=_56e09a71cada64ad86da6530a9c08b96; PHPSESSID=a41gg9dncek6t6m31rinescgr1;',
+    // });
 
     // ! The cookiejar doesn't have "_opensaml_req_ss", that's why it doesn't work
-    console.log(agent.jar.getCookies(new CookieAccessInfo('kairos.unifi.it')));
+    // console.log(agent.jar.getCookies(new CookieAccessInfo('kairos.unifi.it')));
     // console.log(response.text);
+    
+    const lecturesJson = response.text.match(/var lezioni_prenotabili = JSON.parse\('(.*)'\)/gi)?.[1];
 
-    return [];
+    if (!lecturesJson) throw Error("Unable to find lectures list");
+
+    return JSON.parse(lecturesJson)
+        .map((e) => e.prenotazioni)
+        .flat();
 }
 
 /**
@@ -117,7 +124,9 @@ async function getAllLecturesCodes(): Promise<string[]> {
         return;
     }
 
-    await getAllLecturesCodes();
-
-    // TODO get the list of bookable lectures and book all of them
+    const lecturesList = await getLecturesList();
+    
+    lecturesList.forEach((l) => {
+        if (!l.prenotata && l.prenotabile) bookLecture(l.entry_id, config.fiscalCode);
+    });
 })();
