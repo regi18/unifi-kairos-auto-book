@@ -2,7 +2,7 @@ import req from 'superagent';
 import { decode } from 'html-entities';
 import { CookieAccessInfo } from 'cookiejar';
 import { readFileSync } from 'fs';
-import { AppConfig } from './interfaces';
+import { AppConfig, Lecture } from './interfaces';
 const agent = req.agent();
 
 /**
