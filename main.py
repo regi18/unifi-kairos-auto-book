@@ -4,6 +4,8 @@ from Services.Interface.view import *
 from Services.Booking.showBookings import *
 from Services.Booking.newBooking import *
 from Services.Interface.bookingStatus import *
+from datetime import date
+from sys import exit
 
 
 def initialization():
@@ -23,6 +25,10 @@ def initialization():
 
 
 if __name__ == '__main__':
+    if date.today().isoweekday() != 5:
+        print("[*] Skipping... today is not friday.")
+        exit(0)
+
     driver = None
 
     try:
