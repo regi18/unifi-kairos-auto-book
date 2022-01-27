@@ -3,15 +3,11 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from configparser import ConfigParser
 from ..WebDriver.webdrivr import quit_app
 from os import environ
 
 
 def login_studyrooms(driver):
-    file = ConfigParser()
-    file.read("config.ini")
-
     password = environ.get("PASSWORD")
     element1_found = False
     while element1_found is False:
@@ -49,9 +45,6 @@ def login_studyrooms(driver):
 
 
 def login_lessons(driver):
-    file = ConfigParser()
-    file.read("config.ini")
-
     delay = 5  # seconds
     try:
         myelem = WebDriverWait(driver, delay).until(

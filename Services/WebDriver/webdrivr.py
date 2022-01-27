@@ -1,7 +1,6 @@
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 import os
-from os import system
 import sys
 
 chrome_options = webdriver.ChromeOptions()
@@ -39,7 +38,7 @@ def setup_webdriver(website):
     except WebDriverException as e:
         print("[Error] Chrome Driver is not responding")
         print("[ERROR DETAILS]" + " " + repr(e))
-        system("pause")
+        os.system("pause")
         quit_app(2, driver)
 
     return driver

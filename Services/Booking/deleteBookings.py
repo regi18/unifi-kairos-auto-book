@@ -1,5 +1,4 @@
 import time
-from configparser import ConfigParser
 from os import environ
 
 
@@ -19,9 +18,6 @@ def delete_booking(driver, code):
 
 
 def prepare_form(driver, code):
-    file = ConfigParser()
-    file.read("config.ini")
-
     time.sleep(2)
     driver.find_element_by_xpath('//*[@id="chiave_primaria"]').send_keys(
         environ.get("USERNAME"))

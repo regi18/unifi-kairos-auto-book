@@ -1,6 +1,3 @@
-from os import system
-
-
 def ask_for_command():
     print("WELCOME TO KAIROS BOOKER SERVICE!")
     print("================================================================")

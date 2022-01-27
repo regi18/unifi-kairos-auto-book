@@ -1,6 +1,3 @@
-from os import system
-
-
 def update_status(message, perc, bookings_found):
     print(message)
     progress_bar(perc)
