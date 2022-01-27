@@ -5,19 +5,21 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from configparser import ConfigParser
 from ..WebDriver.webdrivr import quit_app
+from os import environ
 
 
 def login_studyrooms(driver):
     file = ConfigParser()
     file.read("config.ini")
 
-    password = file["ACCOUNT"]["password"]
+    password = environ.get("PASSWORD")
     element1_found = False
     while element1_found is False:
         try:
             # Found
             time.sleep(0.5)
-            driver.find_element_by_xpath('//*[@id="username"]').send_keys(file["ACCOUNT"]["user"])
+            driver.find_element_by_xpath('//*[@id="username"]').send_keys(
+                environ.get("USERNAME"))
             element1_found = True
         except NoSuchElementException:
             # Not Found
@@ -28,7 +30,8 @@ def login_studyrooms(driver):
         try:
             # Found
             time.sleep(0.5)
-            driver.find_element_by_xpath('//*[@id="password"]').send_keys(password)
+            driver.find_element_by_xpath('//*[@id="password"]').send_keys(
+                password)
             element2_found = True
         except NoSuchElementException:
             # Not Found
@@ -51,7 +54,8 @@ def login_lessons(driver):
 
     delay = 5  # seconds
     try:
-        myelem = WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.ID, 'info_privacy')))
+        myelem = WebDriverWait(driver, delay).until(
+            EC.presence_of_element_located((By.ID, 'info_privacy')))
     except TimeoutException:
         print("[ERROR] Connection failed. Quitting.")
         quit_app(2, driver)
@@ -63,8 +67,8 @@ def login_lessons(driver):
     driver.execute_script("arguments[0].click();", check_conditions)
 
     driver.find_element_by_id("oauth_btn").click()
-    username = file["ACCOUNT"]["user"]
-    password = file["ACCOUNT"]["password"]
+    username = environ.get("USERNAME")
+    password = environ.get("PASSWORD")
 
     for i in range(5):
         try:
@@ -74,7 +78,8 @@ def login_lessons(driver):
             if i < 4:
                 time.sleep(1)
             else:
-                print('[ERROR] Kairos is not responding. Connection timed out.')
+                print(
+                    '[ERROR] Kairos is not responding. Connection timed out.')
                 quit_app(2, driver)
     else:
         raise e
@@ -87,16 +92,21 @@ def login_lessons(driver):
     time.sleep(3)
 
     try:
-        wrongUsername = driver.find_element_by_xpath("//div[contains(.,'Il nome utente immesso non può essere identificato.')]")
+        wrongUsername = driver.find_element_by_xpath(
+            "//div[contains(.,'Il nome utente immesso non può essere identificato.')]"
+        )
         return False
     except NoSuchElementException as e:
         try:
-            wrongPassword = driver.find_element_by_xpath("//div[contains(.,'La password immessa non è corretta.')]")
+            wrongPassword = driver.find_element_by_xpath(
+                "//div[contains(.,'La password immessa non è corretta.')]")
             return False
         except NoSuchElementException as e:
             delay = 5
             try:
-                WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.ID, 'section-main-menu-title-home')))
+                WebDriverWait(driver, delay).until(
+                    EC.presence_of_element_located(
+                        (By.ID, 'section-main-menu-title-home')))
                 return True
             except NoSuchElementException as e:
                 print("[ERROR] Connection problem during log in. Quitting.")
