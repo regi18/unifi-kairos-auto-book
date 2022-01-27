@@ -5,6 +5,7 @@ from Services.Booking.showBookings import *
 from Services.Booking.newBooking import *
 from Services.Interface.bookingStatus import *
 
+
 def initialization():
     print("[*] Connecting to Kairos...")
     driver = setup_webdriver("https://kairos.unifi.it/portalePlanning/BIBL/")
@@ -12,31 +13,28 @@ def initialization():
     login_status = login_studyrooms(driver)
 
     if login_status is False:
-        print("[!] Login failed: invalid credentials. Please try again with valid credentials")
+        print(
+            "[!] Login failed: invalid credentials. Please try again with valid credentials"
+        )
         quit_app(3, driver)
     else:
         print("[+] Logged in!")
         return driver
 
+
 if __name__ == '__main__':
     driver = None
 
-    while True:
-        try:
-            driver = initialization()
-            new_studyroomsbooking(driver)
-            if driver:
-                driver.close()
-                driver = None
+    try:
+        driver = initialization()
+        new_studyroomsbooking(driver)
 
-        except Exception as e:
-            choice = input('ERROR: Would you like to retry? [Y/N] ')
-            if choice.lower() == 'y':
-                if driver:
-                    driver.close()
-                driver = initialization(driver_type)
-            else:
-                print("[ERROR DETAILS]" + " " + repr(e))
-                quit_app(2, driver)
+        if driver:
+            driver.close()
+            driver = None
+
+    except Exception as e:
+        print("[ERROR: main.py]" + " " + repr(e))
+        quit_app(2, driver)
 
     quit_app(0)
