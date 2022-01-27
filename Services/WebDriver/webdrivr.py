@@ -7,7 +7,7 @@ import sys
 def quit_app(errcode, driver=None):
     if driver:
         driver.close()
-    input("Program terminated. You can now close this window.")
+    print("Program terminated. You can now close this window.")
     sys.exit(errcode)
 
 
