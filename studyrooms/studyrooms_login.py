@@ -1,5 +1,3 @@
-import time
-from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -8,7 +6,7 @@ from webdriver.webdriver import setup_webdriver
 from os import environ
 
 
-def login_studyrooms():
+def do_login():
     """
     Logins to the kairos.unifi.it/portalePlanning/BIBL portal
     """
@@ -17,7 +15,6 @@ def login_studyrooms():
 
     driver = setup_webdriver("https://kairos.unifi.it/portalePlanning/BIBL/")
 
-    is_login_successful = True
     try:
         # Inserts username and password and clicks login
         WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="username"]'))).send_keys(environ.get("USERNAME"))
@@ -28,14 +25,11 @@ def login_studyrooms():
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '/html/body/div/form/div[2]/h4')))
         # Clicks "Go to homepage" to avoid waiting 3 seconds
         WebDriverWait(driver, 3).until(EC.element_to_be_clickable((By.XPATH, '//a[@href="index.php"]'))).click()
-    except:
-        is_login_successful = False
 
-    if not is_login_successful:
+        print("    Logged in!")
+    except:
         print("\n[!] Login failed: invalid credentials. Please try again with valid credentials")
         quit_app(3, driver)
-    else:
-        print("    Logged in!")
 
     return driver
 
