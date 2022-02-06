@@ -7,6 +7,8 @@ from studyrooms.studyrooms_login import do_login
 class StudyroomsBooking:
     STUDY_ROOMS = ("222", "223", "224", "315", "316", "318", "2A", "2B", "2C", "2D")
     SUFFICIENT_BOOKED_DAYS_COUNT = 10
+    
+    driver = None
 
 
     def __init__(self):
