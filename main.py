@@ -1,4 +1,5 @@
-from studyrooms.studyrooms_booking import *
+from studyrooms.studyrooms_booking import StudyroomsBooking
+from lectures.lectures_booking import book_all_lectures
 from datetime import date
 from sys import exit
 from os import environ
@@ -10,6 +11,7 @@ if __name__ == '__main__':
             print("[*] Skipping... today is not friday.")
             exit(0)
 
+    book_all_lectures()
     StudyroomsBooking().book_all_possible_studyrooms()
 
     exit(0)
