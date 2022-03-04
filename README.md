@@ -16,6 +16,8 @@ To run this on your local (windows) machine do the following steps:
 Create a new file in the root of the project called `credentials.py` and replace `<matricola here>` and `<password here>` with your matricola and password
 
 ```
+from os import environ
+
 environ['IS_WIN_DEVELOPMENT'] = 'True'        # Tells the script that it's running locally (and not on Heroku)
 environ['IS_HEADLESS_WIN_DEV'] = 'True'       # Comment or set to another value to see the simulated Chrome Browser (leave like this to run headlessly)
 
