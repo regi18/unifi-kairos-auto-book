@@ -1,3 +1,5 @@
 import credentials
+from main import main
 
-exec(open('main.py').read())
+main()
+

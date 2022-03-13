@@ -5,7 +5,7 @@ from sys import exit
 from os import environ
 
 
-if __name__ == '__main__':
+def main():
     if (environ.get('IS_WIN_DEVELOPMENT') != 'True'):
         if date.today().isoweekday() != 5:
             print("[*] Skipping... today is not friday.")
@@ -15,3 +15,7 @@ if __name__ == '__main__':
     StudyroomsBooking().book_all_possible_studyrooms()
 
     exit(0)
+
+
+if __name__ == '__main__':
+    main()

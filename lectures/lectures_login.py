@@ -29,7 +29,7 @@ def do_login():
         WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '/html/body/div/div/div/div[1]/form/div[5]/button'))).click()
 
         # # Checks if login was successfull
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="auth_container"]//*[@class="login-top-page-user-name"]')))
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[contains(@class,"login-top-page-user-name")]')))
 
         # Goes to the "book new lesson" page
         driver.get("https://kairos.unifi.it/agendaweb/index.php?view=prenotalezione&include=prenotalezione&_lang=it")
