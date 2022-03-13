@@ -14,8 +14,7 @@ class StudyroomsBooking:
 
     def __init__(self):
         self.driver = do_login()
-        self.utils = StudyroomsBookingUtils(self.driver,
-                                            self.SUFFICIENT_BOOKED_DAYS_COUNT)
+        self.utils = StudyroomsBookingUtils(self.driver, self.SUFFICIENT_BOOKED_DAYS_COUNT)
         self.driver_wait = WebDriverWait(self.driver, 10)
 
     def book_all_possible_studyrooms(self):
@@ -23,9 +22,7 @@ class StudyroomsBooking:
 
         try:
             # Enters the new booking section
-            self.driver_wait.until(
-                EC.element_to_be_clickable(
-                    (By.XPATH, '//*[@id="form"]'))).click()
+            self.driver_wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="form"]'))).click()
 
             # Tries to book SUFFICIENT_BOOKED_DAYS_COUNT days. For each day it tries to find a slot in one of the rooms sets in STUDY_ROOMS
             booked_count = 0
@@ -34,9 +31,7 @@ class StudyroomsBooking:
                 for period in ("morning", "afternoon"):
                     for room in self.STUDY_ROOMS:
                         s = '  ' if period == "morning" else ''
-                        print(
-                            f"[*] ({i:02}) Checking room { room } ({ period })...{s}",
-                            end='')
+                        print(f"[*] ({i:02}) Checking room { room } ({ period })...{s}", end='')
 
                         res = self.utils.select_study_room(room, period)
                         if (res and self.utils.try_to_book_selected_room()):

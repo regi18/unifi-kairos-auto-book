@@ -18,9 +18,15 @@ class StudyroomsBookingUtils:
             Selects the study room
         """
 
+        # Selects "Posti studi in ateneo" (instead of "Servizi bibliotecari")
+        self.driver_wait_10s.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="select2-raggruppamento_servizi-container"]'))).click()
+        self.driver_wait_10s.until(EC.element_to_be_clickable((By.XPATH, '/html/body/span/span/span[2]/ul/li[2]'))).click()
+        
         # Sets the time period (Mattina or Pomeriggio)
-        self.driver_wait_10s.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="servizio-container"]/div/div[2]/span'))).click()
-        self.driver_wait_10s.until(EC.element_to_be_clickable((By.XPATH, f"/html/body/span/span/span[2]/ul/li[{'4' if period == 'morning' else '5'}]"))).click()
+        self.driver_wait_10s.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="select2-servizio-container"]'))).click()
+        self.driver_wait_10s.until(EC.element_to_be_clickable((By.XPATH, f"/html/body/span/span/span[2]/ul/li[{'2' if period == 'morning' else '3'}]"))).click()
+        # Simulate a click outside the dropdown to close it
+        self.driver.find_element_by_xpath('//*[@id="servizio-container"]').click()
 
         # Clicks the dropdown
         self.driver_wait_10s.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="area-container"]/div/div[2]/span/span[1]/span'))).click()

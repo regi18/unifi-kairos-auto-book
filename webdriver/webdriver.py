@@ -19,10 +19,8 @@ def setup_webdriver(website):
 
         # If Machine is running on Windows
         if (os.environ.get('IS_WIN_DEVELOPMENT') == 'True'):
-            chrome_options.add_experimental_option("excludeSwitches",
-                                                   ["enable-logging"])
-            chromedriver_path = os.path.join(os.path.dirname(__file__),
-                                             'chromedriver.exe')
+            chrome_options.add_experimental_option("excludeSwitches", ["enable-logging"])
+            chromedriver_path = os.path.join(os.path.dirname(__file__), 'chromedriver.exe')
             if (os.environ.get('IS_HEADLESS_WIN_DEV') == 'True'):
                 chrome_options.add_argument("--headless")
         # Heroku
@@ -33,8 +31,7 @@ def setup_webdriver(website):
             chrome_options.add_argument("--no-sandbox")
             chromedriver_path = "/app/.chromedriver/bin/chromedriver"
 
-        driver = webdriver.Chrome(executable_path=chromedriver_path,
-                                  options=chrome_options)
+        driver = webdriver.Chrome(executable_path=chromedriver_path, options=chrome_options)
         driver.get(website)
 
     except WebDriverException as e:
