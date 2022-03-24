@@ -11,7 +11,7 @@ def do_login():
     Logins to the https://kairos.unifi.it/agendaweb portal
     """
 
-    print("[*] Connecting to Kairos and Logging in...", end='')
+    print("[*] Connecting to Kairos AgendaWeb and Logging in...", end='', flush=True)
 
     driver = setup_webdriver("https://kairos.unifi.it/agendaweb/index.php?view=prenotalezione&include=prenotalezione&_lang=en")
 

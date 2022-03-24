@@ -11,7 +11,7 @@ def do_login():
     Logins to the kairos.unifi.it/portalePlanning/BIBL portal
     """
 
-    print("[*] Connecting to Kairos and Logging in...", end='')
+    print("[*] Connecting to Kairos BIBL portal and Logging in...", end='', flush=True)
 
     driver = setup_webdriver("https://kairos.unifi.it/portalePlanning/BIBL/")
 

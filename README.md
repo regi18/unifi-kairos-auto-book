@@ -8,23 +8,9 @@ Automatically books lectures for UniFi's "Agenda Web" and a list of studyrooms
 To run this on your local machine do the following steps:
 
 1. Clone this repo
-2. Create the credentials.py file (see below)
-4. Run `py -m pip install -r requirements.txt` to install the required python libraries
-3. Run the entire program with `py local_main.py` or only for booking lectures type `py book_only_lectures.py`
-
-### credentials.py
-
-Create a new file in the root of the project called `credentials.py` and replace `<matricola here>` and `<password here>` with your matricola and password
-
-```
-from os import environ
-
-environ['IS_WIN_DEVELOPMENT'] = 'True'        # Tells the script that it's running locally (and not on Heroku)
-environ['IS_HEADLESS_WIN_DEV'] = 'True'       # Comment or set to another value to see the simulated Chrome Browser (leave like this to run headlessly)
-
-environ['USERNAME'] = '<matricola here>'
-environ['PASSWORD'] = '<password here>'
-```
+2. Copy `credentials.example.py`, rename it to `credentials.py` and set your matricola and password. 
+3. Run `py -m pip install -r requirements.txt` to install the required python libraries
+4. Run the entire program with `py local_main.py` or only for booking lectures type `py book_only_lectures.py`
 
 #### OS Compatibility
 
