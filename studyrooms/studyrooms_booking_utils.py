@@ -21,7 +21,7 @@ class StudyroomsBookingUtils:
         # Selects "Posti studi in ateneo" (instead of "Servizi bibliotecari")
         self.driver_wait_10s.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="select2-raggruppamento_servizi-container"]'))).click()
         self.driver_wait_10s.until(EC.element_to_be_clickable((By.XPATH, '/html/body/span/span/span[2]/ul/li[2]'))).click()
-        
+
         # Sets the time period (Mattina or Pomeriggio)
         self.driver_wait_10s.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="select2-servizio-container"]'))).click()
         self.driver_wait_10s.until(EC.element_to_be_clickable((By.XPATH, f"/html/body/span/span/span[2]/ul/li[{'2' if period == 'morning' else '3'}]"))).click()
@@ -29,9 +29,9 @@ class StudyroomsBookingUtils:
         self.driver.find_element_by_xpath('//*[@id="servizio-container"]').click()
 
         # Clicks the dropdown
-        self.driver_wait_10s.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="area-container"]/div/div[2]/span/span[1]/span'))).click()
+        self.driver_wait_10s.until(EC.element_to_be_clickable((By.XPATH, '/html/body/div[2]/div[4]/div[2]/div/div/form/div/div[1]/div/div[4]/div/div[2]/span/span[1]/span/span[2]'))).click()
         # Selects the requested room
-        self.driver_wait_10s.until(EC.element_to_be_clickable((By.XPATH, f"/html/body/span/span/span[2]/ul/li[contains(text(), '{ room }')]"))).click()
+        self.driver_wait_10s.until(EC.element_to_be_clickable((By.XPATH, '/html/body/span/span/span[2]/ul/li[contains(text(), ' + room + ')]'))).click()
         # Waits for the current date to load on the "Scegli la data dell'appuntamento" input field
         self.driver_wait_10s.until(EC.element_to_be_clickable((By.XPATH, "//input[@id='data_inizio']"))).click()
         # Clicks "VERIFICA DISPONIBILITÀ"
@@ -53,6 +53,15 @@ class StudyroomsBookingUtils:
             # Clicks "ANNULLA" button to go back and select a different room/period
             self.driver.find_element_by_xpath("//button[@id='annulla']").click()
             return False
+
+
+    def fix_missing_form_data(self):
+        """
+            Make a useless click on Verifica Disponibilità to overcome missing data error.
+            (This is needed because after clicking "Annulla" and going back to the "new booking" page, 
+            the previously chosen settings will still be there, but the system won't consider them)
+        """
+        self.driver_wait_10s.until(EC.element_to_be_clickable((By.XPATH, "//button[@id='verify']"))).click()
 
 
     # -------------------- PRIVATE  -------------------- #

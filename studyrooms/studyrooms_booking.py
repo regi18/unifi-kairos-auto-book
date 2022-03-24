@@ -3,6 +3,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from studyrooms.studyrooms_booking_utils import StudyroomsBookingUtils
 from studyrooms.studyrooms_login import do_login
+from traceback import format_exc
 
 
 class StudyroomsBooking:
@@ -38,16 +39,17 @@ class StudyroomsBooking:
                             # As soon as a room for the current period is found, exits and go to the next period (or day)
                             booked_count += 1
                             print(f"    Booked! (tot: {booked_count})")
+                            self.utils.fix_missing_form_data()
                             break
 
+                        self.utils.fix_missing_form_data()
                         print("    Nothing found, skipping.")
 
         except Exception as e:
-            print("\n[ERROR: book_all_possible_studyrooms()]    " + repr(e))
-            # exit(1)
+            print("\n[ERROR: book_all_possible_studyrooms()]    " + format_exc())
 
         print("[+] Booking process completed")
 
     def __del__(self):
-        if (self.driver):
+        if self.driver:
             self.driver.close()
