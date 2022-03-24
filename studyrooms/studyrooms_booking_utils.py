@@ -6,18 +6,12 @@ from selenium.webdriver.support import expected_conditions as EC
 
 class StudyroomsBookingUtils:
 
-
-    def fix_form(self):
-        """
-            Make a useless click on Verifica Disponibilità to overcome missing data error
-        """
-        self.driver_wait_10s.until(EC.element_to_be_clickable((By.XPATH, "//button[@id='verify']"))).click()
-
     def __init__(self, driver, SUFFICIENT_BOOKED_DAYS_COUNT):
         self.driver = driver
         self.SUFFICIENT_BOOKED_DAYS_COUNT = SUFFICIENT_BOOKED_DAYS_COUNT
         self.driver_wait_10s = WebDriverWait(self.driver, 10)
         self.driver_wait_3s = WebDriverWait(self.driver, 3)
+
 
     def select_study_room(self, room, period: Literal['morning', 'afternoon']):
         """
@@ -27,6 +21,7 @@ class StudyroomsBookingUtils:
         # Selects "Posti studi in ateneo" (instead of "Servizi bibliotecari")
         self.driver_wait_10s.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="select2-raggruppamento_servizi-container"]'))).click()
         self.driver_wait_10s.until(EC.element_to_be_clickable((By.XPATH, '/html/body/span/span/span[2]/ul/li[2]'))).click()
+
         # Sets the time period (Mattina or Pomeriggio)
         self.driver_wait_10s.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="select2-servizio-container"]'))).click()
         self.driver_wait_10s.until(EC.element_to_be_clickable((By.XPATH, f"/html/body/span/span/span[2]/ul/li[{'2' if period == 'morning' else '3'}]"))).click()
@@ -58,6 +53,15 @@ class StudyroomsBookingUtils:
             # Clicks "ANNULLA" button to go back and select a different room/period
             self.driver.find_element_by_xpath("//button[@id='annulla']").click()
             return False
+
+
+    def fix_missing_form_data(self):
+        """
+            Make a useless click on Verifica Disponibilità to overcome missing data error.
+            (This is needed because after clicking "Annulla" and going back to the "new booking" page, 
+            the previously chosen settings will still be there, but the system won't consider them)
+        """
+        self.driver_wait_10s.until(EC.element_to_be_clickable((By.XPATH, "//button[@id='verify']"))).click()
 
 
     # -------------------- PRIVATE  -------------------- #
