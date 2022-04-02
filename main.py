@@ -12,7 +12,7 @@ def main():
             exit(0)
 
     book_all_lectures()
-    StudyroomsBooking().book_all_possible_studyrooms()
+    # StudyroomsBooking().book_all_possible_studyrooms()
 
     exit(0)
 
